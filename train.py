@@ -35,8 +35,11 @@ def roast_category(value: object) -> float:
 
 
 def _save_model(model: object, filename: str) -> None:
-    with (OUTPUT_DIRECTORY / filename).open("wb") as model_file:
-        pickle.dump(model, model_file, protocol=pickle.HIGHEST_PROTOCOL)
+    output_directories = {OUTPUT_DIRECTORY, Path.cwd()}
+    for output_directory in output_directories:
+        output_directory.mkdir(parents=True, exist_ok=True)
+        with (output_directory / filename).open("wb") as model_file:
+            pickle.dump(model, model_file, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 def train_models() -> None:
